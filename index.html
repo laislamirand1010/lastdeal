@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lastdeal — Les bonnes affaires de dernière minute, près de chez vous</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea-deep:#0A3550;
+    --sea-mid:#155677;
+    --azure:#2F8FB0;
+    --coral:#FF6B4A;
+    --gold:#F0B24C;
+    --cream:#FBF4E8;
+    --ink:#0E1B24;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    line-height:0.95;
+    letter-spacing:-0.01em;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:50;
+    background:rgba(10,53,80,0.92);
+    backdrop-filter:blur(8px);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:18px;
+    padding-bottom:18px;
+  }
+  .logo{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-size:26px;
+    font-weight:800;
+    color:var(--cream);
+    letter-spacing:0.01em;
+  }
+  .logo span{color:var(--coral);}
+  .nav-cta{
+    background:var(--coral);
+    color:var(--cream);
+    padding:10px 22px;
+    border-radius:3px;
+    font-weight:600;
+    font-size:15px;
+    transition:transform 0.15s ease, background 0.15s ease;
+    display:inline-block;
+  }
+  .nav-cta:hover{background:#ff7d5f;transform:translateY(-1px);}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:linear-gradient(160deg, var(--sea-deep) 0%, var(--sea-mid) 100%);
+    color:var(--cream);
+    padding:150px 0 90px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute;
+    bottom:-40%;
+    right:-10%;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle, rgba(47,143,176,0.35) 0%, rgba(47,143,176,0) 70%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:60px;
+    align-items:center;
+    position:relative;
+    z-index:2;
+  }
+  .eyebrow-line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    color:var(--gold);
+    margin-bottom:22px;
+  }
+  .eyebrow-line .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--coral);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:0.4;transform:scale(0.7);}
+  }
+  .hero h1{
+    font-size:clamp(44px, 6vw, 74px);
+    margin-bottom:26px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--coral);
+  }
+  .hero p.lead{
+    font-size:19px;
+    max-width:480px;
+    color:#DCE9EF;
+    margin-bottom:38px;
+  }
+  .btn-row{display:flex;gap:16px;flex-wrap:wrap;}
+  .btn{
+    padding:15px 28px;
+    border-radius:3px;
+    font-weight:600;
+    font-size:15.5px;
+    display:inline-block;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    cursor:pointer;
+    border:none;
+  }
+  .btn-primary{
+    background:var(--coral);
+    color:var(--cream);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,107,74,0.35);}
+  .btn-outline{
+    background:transparent;
+    color:var(--cream);
+    border:1.5px solid rgba(251,244,232,0.4);
+  }
+  .btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+  /* ---------- FLAP BOARD ---------- */
+  .board{
+    background:var(--ink);
+    border-radius:6px;
+    padding:22px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+    border:1px solid rgba(240,178,76,0.15);
+  }
+  .board-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    color:var(--gold);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding-bottom:14px;
+    margin-bottom:14px;
+    border-bottom:1px solid rgba(240,178,76,0.2);
+  }
+  .board-row{
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    gap:14px;
+    align-items:center;
+    padding:13px 4px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .board-row:last-child{border-bottom:none;}
+  .flap{
+    font-family:'Space Mono', monospace;
+    color:var(--cream);
+    overflow:hidden;
+    height:20px;
+    position:relative;
+  }
+  .flap-inner{
+    display:block;
+    transition:transform 0.5s cubic-bezier(.65,0,.35,1);
+  }
+  .flap-line{
+    height:20px;
+    display:flex;
+    align-items:center;
+    white-space:nowrap;
+  }
+  .board-row .place{font-size:14.5px;font-weight:600;letter-spacing:0.02em;}
+  .board-row .time{font-size:13px;color:var(--azure);}
+  .board-row .pct{font-size:13px;color:var(--coral);font-weight:700;}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:100px 0;}
+  .section-tag{
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    color:var(--sea-mid);
+    margin-bottom:16px;
+  }
+
+  /* ---------- CONCEPT (sequence) ---------- */
+  .concept{background:var(--cream);}
+  .concept h2{
+    font-size:clamp(32px,4vw,46px);
+    color:var(--sea-deep);
+    max-width:600px;
+    margin-bottom:60px;
+  }
+  .concept-flow{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+    position:relative;
+  }
+  .concept-flow::before{
+    content:"";
+    position:absolute;
+    top:22px;left:8%;right:8%;
+    height:2px;
+    background:repeating-linear-gradient(90deg, var(--azure) 0 8px, transparent 8px 16px);
+    z-index:0;
+  }
+  .step{
+    position:relative;
+    z-index:1;
+    padding-right:24px;
+  }
+  .step-num{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--sea-deep);
+    color:var(--gold);
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:22px;
+  }
+  .step h3{
+    font-size:22px;
+    color:var(--ink);
+    margin-bottom:10px;
+    font-family:'Work Sans',sans-serif;
+    font-weight:700;
+  }
+  .step p{
+    color:#4A5A63;
+    font-size:15.5px;
+    max-width:280px;
+  }
+
+  /* ---------- POUR QUI ---------- */
+  .audience{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    min-height:520px;
+  }
+  .audience-panel{
+    padding:70px 56px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .audience-panel.user{
+    background:var(--sea-deep);
+    color:var(--cream);
+  }
+  .audience-panel.biz{
+    background:var(--gold);
+    color:var(--ink);
+  }
+  .audience-panel .tag{
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    margin-bottom:18px;
+    opacity:0.8;
+  }
+  .audience-panel h3{
+    font-size:38px;
+    margin-bottom:20px;
+  }
+  .audience-panel ul{
+    list-style:none;
+    margin:24px 0 32px;
+  }
+  .audience-panel li{
+    padding:10px 0;
+    border-top:1px solid rgba(255,255,255,0.15);
+    font-size:16px;
+  }
+  .audience-panel.biz li{border-top:1px solid rgba(14,27,36,0.15);}
+  .audience-panel li:last-child{border-bottom:1px solid rgba(255,255,255,0.15);}
+  .audience-panel.biz li:last-child{border-bottom:1px solid rgba(14,27,36,0.15);}
+
+  /* ---------- POURQUOI (editorial) ---------- */
+  .why{background:var(--cream);}
+  .why-grid{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:70px;
+  }
+  .why h2{
+    font-size:clamp(32px,4vw,44px);
+    color:var(--sea-deep);
+    position:sticky;
+    top:120px;
+    align-self:start;
+  }
+  .why-block{
+    border-left:3px solid var(--coral);
+    padding-left:28px;
+    margin-bottom:44px;
+  }
+  .why-block:last-child{margin-bottom:0;}
+  .why-block h4{
+    font-family:'Work Sans',sans-serif;
+    font-weight:700;
+    font-size:18px;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .why-block p{
+    color:#4A5A63;
+    font-size:16px;
+    max-width:520px;
+  }
+
+  /* ---------- SIGNUP ---------- */
+  .signup{
+    background:linear-gradient(160deg, var(--sea-mid) 0%, var(--sea-deep) 100%);
+    color:var(--cream);
+    position:relative;
+    overflow:hidden;
+  }
+  .signup .wrap{
+    display:flex;
+    justify-content:center;
+  }
+  .signup-card{
+    background:var(--cream);
+    color:var(--ink);
+    border-radius:8px;
+    max-width:560px;
+    width:100%;
+    padding:52px;
+    box-shadow:0 30px 70px rgba(0,0,0,0.3);
+  }
+  .signup-card h2{
+    font-size:36px;
+    color:var(--sea-deep);
+    margin-bottom:10px;
+  }
+  .signup-card>p{
+    color:#4A5A63;
+    margin-bottom:30px;
+    font-size:15.5px;
+  }
+  .toggle{
+    display:flex;
+    background:#EFE6D5;
+    border-radius:6px;
+    padding:4px;
+    margin-bottom:26px;
+  }
+  .toggle button{
+    flex:1;
+    padding:12px;
+    border:none;
+    background:transparent;
+    border-radius:4px;
+    font-family:'Work Sans',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    color:#6b7680;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .toggle button.active{
+    background:var(--sea-deep);
+    color:var(--cream);
+  }
+  form label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:#6b7680;
+    margin-bottom:6px;
+    margin-top:16px;
+  }
+  form input{
+    width:100%;
+    padding:13px 14px;
+    border:1.5px solid #E3D9C5;
+    border-radius:4px;
+    font-family:'Work Sans',sans-serif;
+    font-size:15px;
+    background:#fff;
+    color:var(--ink);
+  }
+  form input:focus{outline:2px solid var(--azure);outline-offset:1px;}
+  .field-biz{display:none;}
+  .field-biz.show{display:block;}
+  .submit-btn{
+    width:100%;
+    margin-top:26px;
+    background:var(--coral);
+    color:var(--cream);
+    padding:16px;
+    border:none;
+    border-radius:4px;
+    font-weight:700;
+    font-size:16px;
+    cursor:pointer;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .submit-btn:hover{background:#ff7d5f;transform:translateY(-1px);}
+  .submit-btn:disabled{opacity:0.7;cursor:default;transform:none;}
+  .form-error{
+    display:none;
+    color:var(--coral);
+    font-size:13.5px;
+    font-weight:600;
+    margin-top:14px;
+  }
+  .confirm{
+    display:none;
+    text-align:center;
+    padding:30px 0;
+  }
+  .confirm.show{display:block;}
+  .confirm .check{
+    width:64px;height:64px;
+    border-radius:50%;
+    background:var(--sea-deep);
+    color:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+    font-size:28px;
+    font-family:'Big Shoulders Display',sans-serif;
+    animation:pop 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop{
+    0%{transform:scale(0);}
+    100%{transform:scale(1);}
+  }
+  .confirm h3{font-size:26px;color:var(--sea-deep);margin-bottom:8px;}
+  .confirm p{color:#4A5A63;font-size:15px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--ink);
+    color:#9DB0BA;
+    padding:44px 0;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  footer .logo{font-size:20px;}
+  footer nav.links{display:flex;gap:28px;background:none;position:static;}
+  footer .links a{font-size:14px;transition:color 0.15s ease;}
+  footer .links a:hover{color:var(--gold);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:880px){
+    .hero-grid{grid-template-columns:1fr;}
+    .audience{grid-template-columns:1fr;}
+    .concept-flow{grid-template-columns:1fr;gap:40px;}
+    .concept-flow::before{display:none;}
+    .why-grid{grid-template-columns:1fr;}
+    .why h2{position:static;margin-bottom:20px;}
+    .signup-card{padding:36px 26px;}
+    section{padding:70px 0;}
+    .audience-panel{padding:50px 30px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">Last<span>deal</span></div>
+    <a href="#preinscription" class="nav-cta">Se pré-inscrire</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow-line"><span class="dot"></span> Bientôt sur la Côte d'Azur</div>
+      <h1>Les bonnes tables<br>et les bons plans,<br><em>à la dernière minute.</em></h1>
+      <p class="lead">Lastdeal connecte les restaurants, spas et loisirs qui ont des places libres avec les habitants qui veulent en profiter — au bon prix, au bon moment.</p>
+      <div class="btn-row">
+        <a href="#preinscription" class="btn btn-primary" onclick="setRole('user')">Je suis un particulier</a>
+        <a href="#preinscription" class="btn btn-outline" onclick="setRole('biz')">Je suis une entreprise</a>
+      </div>
+    </div>
+
+    <div class="board">
+      <div class="board-head">
+        <span>Dispos maintenant</span>
+        <span>Nice · Antibes</span>
+      </div>
+      <div id="board-rows"></div>
+    </div>
+  </div>
+</header>
+
+<section class="concept">
+  <div class="wrap">
+    <div class="section-tag">Comment ça marche</div>
+    <h2>Un créneau qui se libère, une notification, une place prise.</h2>
+    <div class="concept-flow">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>L'établissement publie</h3>
+        <p>Une table libre ce soir, une météo capricieuse, un rendez-vous annulé — l'offre est en ligne en quelques secondes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Vous êtes prévenu</h3>
+        <p>Géolocalisation à 5 km ou établissements suivis : vous recevez l'offre au moment où elle compte.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Vous réservez</h3>
+        <p>Directement dans l'app, avec une petite pré-autorisation pour garantir votre place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="audience" id="audience">
+  <div class="audience-panel user">
+    <div class="tag">Particuliers</div>
+    <h3>Profitez de la Côte d'Azur sans les tarifs touristiques.</h3>
+    <ul>
+      <li>Offres à moins de 5 km, valables aujourd'hui ou dans les 5 prochains jours</li>
+      <li>Abonnement gratuit à vos établissements préférés</li>
+      <li>Carte interactive pour visualiser les offres autour de vous</li>
+    </ul>
+    <a href="#preinscription" class="btn btn-primary" onclick="setRole('user')" style="width:fit-content;">Être prévenu au lancement</a>
+  </div>
+  <div class="audience-panel biz">
+    <div class="tag">Restaurants, spas, loisirs</div>
+    <h3>Remplissez vos créneaux creux sans casser vos prix à l'année.</h3>
+    <ul>
+      <li>Publication en temps réel, durée et places choisies librement</li>
+      <li>Une communauté d'abonnés notifiée à chaque annonce</li>
+      <li>Une annonce gratuite tous les 3 mois, ou un abonnement illimité</li>
+    </ul>
+    <a href="#preinscription" class="btn" style="background:var(--sea-deep);color:var(--cream);width:fit-content;" onclick="setRole('biz')">Être prévenu au lancement</a>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap why-grid">
+    <h2>Pourquoi Lastdeal existe</h2>
+    <div>
+      <div class="why-block">
+        <h4>Le constat</h4>
+        <p>D'un côté, des établissements qui affichent des taux de remplissage critiques en dehors de la haute saison. De l'autre, des habitants — étudiants, jeunes actifs — dont le pouvoir d'achat ne suit plus les tarifs touristiques de la Côte d'Azur.</p>
+      </div>
+      <div class="why-block">
+        <h4>La vision</h4>
+        <p>Transformer une capacité inutilisée en opportunité accessible, sans dégrader la politique tarifaire habituelle des professionnels. Un outil de pilotage de l'offre et de la demande en temps réel, pas une simple plateforme de promotions.</p>
+      </div>
+      <div class="why-block">
+        <h4>L'effet local</h4>
+        <p>En donnant aux établissements un moyen de fidéliser une communauté d'abonnés, Lastdeal fait vivre l'économie de proximité toute l'année — pas seulement pendant la haute saison.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="signup" id="preinscription">
+  <div class="wrap">
+    <div class="signup-card">
+      <div id="form-state">
+        <h2>Soyez prévenu au lancement</h2>
+        <p>Inscrivez-vous en 20 secondes — aucun engagement, juste un mail le jour J.</p>
+        <div class="toggle">
+          <button type="button" id="btn-user" class="active" onclick="setRole('user')">Particulier</button>
+          <button type="button" id="btn-biz" onclick="setRole('biz')">Entreprise</button>
+        </div>
+        <form id="signup-form" onsubmit="handleSubmit(event)">
+          <label for="name">Prénom</label>
+          <input type="text" id="name" required placeholder="Camille">
+
+          <div id="biz-field" class="field-biz">
+            <label for="company">Nom de l'établissement</label>
+            <input type="text" id="company" placeholder="Le Petit Nice">
+          </div>
+
+          <label for="email">Adresse e-mail</label>
+          <input type="email" id="email" required placeholder="camille@exemple.fr">
+
+          <p id="form-error" class="form-error"></p>
+          <button type="submit" class="submit-btn">Me tenir au courant</button>
+        </form>
+      </div>
+
+      <div id="confirm" class="confirm">
+        <div class="check">✓</div>
+        <h3>C'est noté !</h3>
+        <p id="confirm-text">Vous serez parmi les premiers informés du lancement de Lastdeal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo">Last<span style="color:var(--coral);">deal</span></div>
+    <nav class="links">
+      <a href="mailto:contact@lastdeal.fr">contact@lastdeal.fr</a>
+      <a href="#preinscription">Pré-inscription</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // ---- Split-flap board ----
+  const deals = [
+    { place: "Le Petit Nice", time: "19H–20H", pct: "-30%" },
+    { place: "Spa Azur Wellness", time: "CE SOIR", pct: "-20%" },
+    { place: "Escape Riviera", time: "17H–19H", pct: "-25%" },
+    { place: "Trattoria Antibes", time: "20H30", pct: "-15%" }
+  ];
+
+  const boardRows = document.getElementById('board-rows');
+  const rowCount = 3;
+  const rowEls = [];
+
+  for(let i=0;i<rowCount;i++){
+    const row = document.createElement('div');
+    row.className = 'board-row';
+    row.innerHTML = `
+      <div class="flap place-flap"><div class="flap-inner"><div class="flap-line"></div></div></div>
+      <div class="flap time-flap"><div class="flap-inner"><div class="flap-line"></div></div></div>
+      <div class="flap pct-flap"><div class="flap-inner"><div class="flap-line"></div></div></div>
+    `;
+    row.querySelector('.place-flap .flap-line').className += ' place';
+    row.querySelector('.time-flap .flap-line').className += ' time';
+    row.querySelector('.pct-flap .flap-line').className += ' pct';
+    boardRows.appendChild(row);
+    rowEls.push(row);
+  }
+
+  function fillRow(rowEl, deal){
+    rowEl.querySelector('.place-flap .flap-line').textContent = deal.place;
+    rowEl.querySelector('.time-flap .flap-line').textContent = deal.time;
+    rowEl.querySelector('.pct-flap .flap-line').textContent = deal.pct;
+  }
+
+  function flipRow(rowEl, deal){
+    const flaps = rowEl.querySelectorAll('.flap-inner');
+    flaps.forEach(f => {
+      f.style.transform = 'translateY(-20px)';
+      f.style.opacity = '0';
+    });
+    setTimeout(() => {
+      fillRow(rowEl, deal);
+      flaps.forEach(f => {
+        f.style.transition = 'none';
+        f.style.transform = 'translateY(20px)';
+        f.style.opacity = '0';
+        requestAnimationFrame(() => {
+          f.style.transition = 'transform 0.4s cubic-bezier(.34,1.2,.64,1), opacity 0.4s ease';
+          f.style.transform = 'translateY(0)';
+          f.style.opacity = '1';
+        });
+      });
+    }, 250);
+  }
+
+  // initial fill
+  for(let i=0;i<rowCount;i++){ fillRow(rowEls[i], deals[i]); }
+
+  let cursor = rowCount % deals.length;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!prefersReduced){
+    setInterval(() => {
+      const rowIndex = cursor % rowCount;
+      const deal = deals[cursor % deals.length];
+      flipRow(rowEls[rowIndex], deal);
+      cursor++;
+    }, 2600);
+  }
+
+  // ---- Role toggle ----
+  function setRole(role){
+    const btnUser = document.getElementById('btn-user');
+    const btnBiz = document.getElementById('btn-biz');
+    const bizField = document.getElementById('biz-field');
+    const companyInput = document.getElementById('company');
+
+    if(role === 'biz'){
+      btnBiz.classList.add('active');
+      btnUser.classList.remove('active');
+      bizField.classList.add('show');
+      companyInput.required = true;
+    } else {
+      btnUser.classList.add('active');
+      btnBiz.classList.remove('active');
+      bizField.classList.remove('show');
+      companyInput.required = false;
+    }
+  }
+
+  // ---- Form submit ----
+  async function handleSubmit(e){
+    e.preventDefault();
+
+    const errorEl = document.getElementById('form-error');
+    errorEl.style.display = 'none';
+    errorEl.textContent = '';
+
+    const isBiz = document.getElementById('btn-biz').classList.contains('active');
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const company = document.getElementById('company').value.trim();
+    const role = isBiz ? 'entreprise' : 'particulier';
+
+    // Validation côté client
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!name){
+      errorEl.textContent = "Merci d'indiquer votre prénom.";
+      errorEl.style.display = 'block';
+      return;
+    }
+    if(!email || !emailRegex.test(email)){
+      errorEl.textContent = "Merci de saisir une adresse e-mail valide.";
+      errorEl.style.display = 'block';
+      return;
+    }
+    if(isBiz && !company){
+      errorEl.textContent = "Merci d'indiquer le nom de votre établissement.";
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    const submitBtn = document.querySelector('.submit-btn');
+    const originalLabel = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi...';
+
+    try{
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, role, company })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if(!res.ok){
+        throw new Error(data.error || "Une erreur est survenue, réessayez.");
+      }
+
+      // Confirmation affichée uniquement si l'inscription a réellement été enregistrée
+      document.getElementById('form-state').style.display = 'none';
+      const confirmEl = document.getElementById('confirm');
+      document.getElementById('confirm-text').textContent = isBiz
+        ? "Nous revenons vers vous avant le lancement pour préparer votre première annonce."
+        : "Vous serez parmi les premiers informés du lancement de Lastdeal.";
+      confirmEl.classList.add('show');
+
+    } catch(err){
+      errorEl.textContent = err.message || "Impossible d'enregistrer votre inscription pour le moment.";
+      errorEl.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  }
+</script>
+
+</body>
+</html>
